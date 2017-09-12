@@ -116,8 +116,42 @@ namespace SQLite.Net.DateTimeOffset.PostBuild.Extensions
 			var backingField = new FieldDefinition(backingFieldName, FieldAttributes.Private, stringType);
 			type.Fields.Add(backingField);
 
-			// Create getter method for new property
-			var getMethod = new MethodDefinition(getMethodName, MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName, stringType);
+		    // Provide an initial value for the new property's backing field
+		    var toStringMethod = type.Module.FindDateTimeOffsetToStringMethod(log);
+		    if (toStringMethod == null) return false;
+
+		    var originalBackingField = type.Fields.FirstOrDefault(
+		        f => f.FieldType.FullName.Equals("System.DateTimeOffset") && f.Name.Equals($"<{property.Name}>k__BackingField"));
+
+		    var newInitialSetter1 = Instruction.Create(OpCodes.Ldarg_0);
+		    var newInitialSetter2 = Instruction.Create(OpCodes.Ldarg_0);
+		    var newInitialSetter3 = Instruction.Create(OpCodes.Ldflda, originalBackingField);
+		    var newInitialSetter4 = Instruction.Create(OpCodes.Ldstr, serializeFormat);
+		    var newInitialSetter5 = Instruction.Create(OpCodes.Call, toStringMethod);
+		    var newInitialSetter6 = Instruction.Create(OpCodes.Stfld, backingField);
+
+		    var ctors = type.Methods.Where(m => m.Name.Equals(".ctor"));
+		    foreach (var ctor in ctors)
+		    {
+		        var ctorProcessor = ctor.Body.GetILProcessor();
+		        var initialSetter = ctor.Body.Instructions.FirstOrDefault(i => i.OpCode == OpCodes.Stfld && i.Operand is FieldDefinition && i.Operand == originalBackingField);
+		        if (initialSetter != null)
+		        {
+		            ctorProcessor.InsertAfter(initialSetter, newInitialSetter1);
+		        }
+		        else
+		        {
+		            ctorProcessor.InsertBefore(ctorProcessor.Body.Instructions[0], newInitialSetter1);
+		        }
+		        ctorProcessor.InsertAfter(newInitialSetter1, newInitialSetter2);
+		        ctorProcessor.InsertAfter(newInitialSetter2, newInitialSetter3);
+		        ctorProcessor.InsertAfter(newInitialSetter3, newInitialSetter4);
+		        ctorProcessor.InsertAfter(newInitialSetter4, newInitialSetter5);
+		        ctorProcessor.InsertAfter(newInitialSetter5, newInitialSetter6);
+		    }
+
+            // Create getter method for new property
+            var getMethod = new MethodDefinition(getMethodName, MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName, stringType);
 			getMethod.Body = new MethodBody(getMethod);
 			var processor = getMethod.Body.GetILProcessor();
 			processor.Emit(OpCodes.Ldarg_0);
@@ -154,9 +188,6 @@ namespace SQLite.Net.DateTimeOffset.PostBuild.Extensions
 			processor.Emit(OpCodes.Ret);
 
 			// Adapt existing property's setter method
-			var toStringMethod = type.Module.FindDateTimeOffsetToStringMethod(log);
-			if (toStringMethod == null) return false;
-
 			processor = property.SetMethod.Body.GetILProcessor();
 			processor.Empty();
 			processor.Emit(OpCodes.Ldarg_0);
