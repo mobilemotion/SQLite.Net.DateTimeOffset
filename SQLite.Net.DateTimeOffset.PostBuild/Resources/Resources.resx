@@ -124,7 +124,7 @@
     <value>Could not load assembly from file "{0}". Error: {1}</value>
   </data>
   <data name="Error_ResolveColumnAttributeCtorMethodFailed" xml:space="preserve">
-    <value>Could not resolve attribute SQLite.Net.Attributes.Column. Error:{0}</value>
+    <value>Could not resolve attribute SQLite.Column. Error:{0}</value>
   </data>
   <data name="Error_ResolveDateTimeOffsetParseExactMethodFailed" xml:space="preserve">
     <value>Could not resolve method System.DateTimeObject.ParseExact(). Error:{0}</value>
@@ -133,7 +133,7 @@
     <value>Could not resolve method System.DateTimeObject.ToString(). Error:{0}</value>
   </data>
   <data name="Error_ResolveIgnoreAttributeCtorMethodFailed" xml:space="preserve">
-    <value>Could not resolve attribute SQLite.Net.Attributes.Ignore. Error:{0}</value>
+    <value>Could not resolve attribute SQLite.Ignore. Error:{0}</value>
   </data>
   <data name="Error_ResolveInvariantCultureGetterMethodFailed" xml:space="preserve">
     <value>Could not resolve property System.Globalization.CultureInfo.InvariantCulture. Error:{0}</value>

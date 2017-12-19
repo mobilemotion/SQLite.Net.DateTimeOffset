@@ -11,7 +11,7 @@ namespace SQLite.Net.DateTimeOffset.PostBuild.Extensions
 	{
 		/// <summary>
 		/// Finds all properties of a given type that are flagged with the "DateTimeOffsetSerialize" attribute, are NOT flagged
-		/// with the "SQLite.Net.Attributes.Ignore" attribute, and are of type <see cref="System.DateTimeOffset"/>. Returns a
+		/// with the "SQLite.Ignore" attribute, and are of type <see cref="System.DateTimeOffset"/>. Returns a
 		/// list containing all detected properties within the given type, or an empty list if no matching properties could be
 		/// found, or NULL if the "DateTimeOffsetSerialize" attribute has been used on a property of a different data type.
 		/// </summary>
@@ -24,7 +24,7 @@ namespace SQLite.Net.DateTimeOffset.PostBuild.Extensions
 			foreach (var property in type.Properties.Where(p =>
 				p.HasCustomAttributes &&
 				p.CustomAttributes.Any(a => a.AttributeType.FullName.Equals("SQLite.Net.DateTimeOffset.Attributes.DateTimeOffsetSerializeAttribute")) &&
-				!p.CustomAttributes.Any(a => a.AttributeType.FullName.Equals("SQLite.Net.Attributes.IgnoreAttribute"))))
+				!p.CustomAttributes.Any(a => a.AttributeType.FullName.Equals("SQLite.IgnoreAttribute"))))
 			{
 				if (!property.PropertyType.FullName.Equals("System.DateTimeOffset"))
 					return null;
@@ -103,7 +103,7 @@ namespace SQLite.Net.DateTimeOffset.PostBuild.Extensions
 			{
 				foreach (var attribute in property.CustomAttributes)
 				{
-					if (attribute.AttributeType.FullName.Equals("SQLite.Net.Attributes.ColumnAttribute") && attribute.HasConstructorArguments)
+					if (attribute.AttributeType.FullName.Equals("SQLite.ColumnAttribute") && attribute.HasConstructorArguments)
 					{
 						columnName = attribute.ConstructorArguments[0].Value as string;
 						break;
@@ -204,7 +204,7 @@ namespace SQLite.Net.DateTimeOffset.PostBuild.Extensions
 			for (int i = property.CustomAttributes.Count - 1; i >= 0; i--)
 			{
 				if (property.CustomAttributes[i].AttributeType.FullName.Equals("SQLite.Net.DateTimeOffset.Attributes.DateTimeOffsetSerializeAttribute") ||
-					property.CustomAttributes[i].AttributeType.FullName.Equals("SQLite.Net.Attributes.ColumnAttribute"))
+					property.CustomAttributes[i].AttributeType.FullName.Equals("SQLite.ColumnAttribute"))
 				{
 					property.CustomAttributes.RemoveAt(i);
 				}

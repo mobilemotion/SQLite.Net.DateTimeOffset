@@ -5,7 +5,6 @@ using System.Linq;
 using Microsoft.Build.Utilities;
 using Mono.Cecil;
 using Mono.Cecil.Rocks;
-using SQLite.Net.Attributes;
 
 namespace SQLite.Net.DateTimeOffset.PostBuild.Extensions
 {
@@ -129,7 +128,7 @@ namespace SQLite.Net.DateTimeOffset.PostBuild.Extensions
 		}
 
 		/// <summary>
-		/// Resolves and returns the <code>SQLite.Net.Attributes.Ignore</code> attribute's constructor method.
+		/// Resolves and returns the <code>SQLite.Ignore</code> attribute's constructor method.
 		/// </summary>
 		/// <param name="module"></param>
 		/// <param name="log"></param>
@@ -153,7 +152,7 @@ namespace SQLite.Net.DateTimeOffset.PostBuild.Extensions
 		}
 
 		/// <summary>
-		/// Resolves and returns the <code>SQLite.Net.Attributes.Column</code> attribute's constructor method.
+		/// Resolves and returns the <code>SQLite.Column</code> attribute's constructor method.
 		/// </summary>
 		/// <param name="module"></param>
 		/// <param name="log"></param>

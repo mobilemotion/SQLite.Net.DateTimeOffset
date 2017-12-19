@@ -3,7 +3,7 @@
 namespace SQLite.Net.DateTimeOffset.Attributes
 {
 	/// <summary>
-	/// Attribute to be used on <see cref="System.DateTimeOffset"/> properties within SQLite.Net data model classes.
+	/// Attribute to be used on <see cref="System.DateTimeOffset"/> properties within SQLite data model classes.
 	/// When applying the <code>SQLite.Net.DateTimeOffset.PostBuild.PostBuildTask</code> to an assembly, all
 	/// properties flagged with this attribute within the assembly will be rebuilt to allow serialization to the
 	/// SQLite database.
