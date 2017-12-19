@@ -21,8 +21,12 @@ namespace SQLite.Net.DateTimeOffset.Test.Models
         [Ignore]
         public System.DateTimeOffset Test_Ignore { get; set; } = _testDateTimeOffset;
 
-        [DateTimeOffsetSerialize(true)]
-        [Column("Specialname")]
+        [DateTimeOffsetSerialize]
+        [Column("Specialname1")]
         public System.DateTimeOffset Test_Columnname { get; set; } = _testDateTimeOffset;
+
+        [DateTimeOffsetSerialize(true)]
+        [Column("Specialname2")]
+        public System.DateTimeOffset Test_KeepOriginal_Columnname { get; set; } = _testDateTimeOffset;
     }
 }
