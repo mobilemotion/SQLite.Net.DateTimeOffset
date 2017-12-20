@@ -18,6 +18,7 @@
 x64/
 x86/
 build/
+!NuGet/Content/build/
 bld/
 [Bb]in/
 [Oo]bj/
@@ -140,6 +141,8 @@ publish/
 
 # NuGet Packages
 *.nupkg
+# except within NuGet/, which contains NuGet packages created by this project!
+!Nuget/*.nupkg
 # The packages folder can be ignored because of Package Restore
 **/packages/*
 # except build/, which is used as an MSBuild target.
@@ -207,3 +210,4 @@ FakesAssemblies/
 # Tools
 tools/*
 !tools/packages.config
+!NuGet/Content/tools/*
