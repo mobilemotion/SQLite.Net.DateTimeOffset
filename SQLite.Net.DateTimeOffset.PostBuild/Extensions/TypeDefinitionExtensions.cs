@@ -102,14 +102,19 @@ namespace SQLite.Net.DateTimeOffset.PostBuild.Extensions
                 // property's name as column name
                 columnName = propertyNameDuplicate;
             }
-            else if (property.HasCustomAttributes)
+            if (property.HasCustomAttributes)
             {
                 foreach (var attribute in property.CustomAttributes)
                 {
                     if (attribute.AttributeType.FullName.Equals("SQLite.ColumnAttribute") &&
                         attribute.HasConstructorArguments)
                     {
+                        // If the original property has been decorated with a Column attribute, we need to ensure that
+                        // the desired column name is used for the new property (maybe followed by a suffix, if the
+                        // original property shall be kept as well)
                         columnName = attribute.ConstructorArguments[0].Value as string;
+                        if (keepOriginal)
+                            columnName += "_Serialized";
                         break;
                     }
                 }
@@ -208,12 +213,19 @@ namespace SQLite.Net.DateTimeOffset.PostBuild.Extensions
             // Add new property to class
             type.Properties.Add(duplicateProperty);
 
-            // Remove the original "DateTimeOffsetSerialize" attribute (to ensure the property is not rebuilt again on a potential second run)
             for (int i = property.CustomAttributes.Count - 1; i >= 0; i--)
             {
+                // Remove the original "DateTimeOffsetSerialize" attribute (to ensure the property is not rebuilt
+                // again on a potential second run)
                 if (property.CustomAttributes[i].AttributeType.FullName
-                        .Equals("SQLite.Net.DateTimeOffset.Attributes.DateTimeOffsetSerializeAttribute") ||
-                    property.CustomAttributes[i].AttributeType.FullName.Equals("SQLite.ColumnAttribute"))
+                    .Equals("SQLite.Net.DateTimeOffset.Attributes.DateTimeOffsetSerializeAttribute"))
+                {
+                    property.CustomAttributes.RemoveAt(i);
+                }
+                // If the original property shall not be stored, remove its Column attribute as well (if available)
+                // Otherwise, it will have the same Column attribute assigned as the new property
+                else if (!keepOriginal && property.CustomAttributes[i].AttributeType.FullName
+                             .Equals("SQLite.ColumnAttribute"))
                 {
                     property.CustomAttributes.RemoveAt(i);
                 }
