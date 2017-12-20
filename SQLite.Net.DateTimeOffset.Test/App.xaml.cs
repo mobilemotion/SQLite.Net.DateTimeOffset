@@ -24,7 +24,7 @@ namespace SQLite.Net.DateTimeOffset.Test
             this.InitializeComponent();
             this.Suspending += OnSuspending;
 
-            var conn = new SQLiteConnection(Path.Combine(ApplicationData.Current.LocalFolder.Path, "test.db"));
+            var conn = new SQLite.SQLiteConnection(Path.Combine(ApplicationData.Current.LocalFolder.Path, "test.db"));
             conn.CreateTable<TestItem>();
 
             conn.Insert(new TestItem());
