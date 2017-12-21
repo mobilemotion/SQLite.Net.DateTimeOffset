@@ -19,7 +19,7 @@ namespace SQLite.Net.DateTimeOffset.PostBuild.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -79,7 +79,7 @@ namespace SQLite.Net.DateTimeOffset.PostBuild.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Could not resolve attribute SQLite.Net.Attributes.Column. Error:{0}.
+        ///   Looks up a localized string similar to Could not resolve attribute SQLite.Column. Error:{0}.
         /// </summary>
         internal static string Error_ResolveColumnAttributeCtorMethodFailed {
             get {
@@ -106,7 +106,7 @@ namespace SQLite.Net.DateTimeOffset.PostBuild.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Could not resolve attribute SQLite.Net.Attributes.Ignore. Error:{0}.
+        ///   Looks up a localized string similar to Could not resolve attribute SQLite.Ignore. Error:{0}.
         /// </summary>
         internal static string Error_ResolveIgnoreAttributeCtorMethodFailed {
             get {
